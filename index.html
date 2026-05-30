@@ -115,6 +115,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
 
+  <script>
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+  </script>
+
   <style>
     :root {
       --pp-dark: #05161A;
@@ -516,6 +521,7 @@
       margin-bottom: 6px;
       min-height: 72px;
       background: transparent;
+      overflow-anchor: none;
     }
 
     .beehiiv-fallback {
@@ -735,6 +741,8 @@
       return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 
+    const SCROLL_REVEAL_START = 80;
+
     function onScroll() {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -744,6 +752,18 @@
 
       const transitionRect = transitionSection.getBoundingClientRect();
       const viewport = window.innerHeight;
+      const hasScrolled = scrollTop >= SCROLL_REVEAL_START;
+
+      // Keep PausePoint hero at top until the visitor scrolls
+      if (!hasScrolled) {
+        bgAoc.style.opacity = '0';
+        ppLogo.classList.remove('handoff');
+        transitionLine.classList.remove('visible');
+        transitionPause.classList.remove('visible');
+        aocContainer.classList.remove('visible');
+        waitlistSection.classList.remove('visible');
+        return;
+      }
 
       // Crossfade PP → AoC backgrounds across the transition zone
       const fadeStart = viewport * 0.95;
@@ -761,6 +781,10 @@
         transitionLine.classList.add('visible');
         transitionPause.classList.add('visible');
         aocContainer.classList.add('visible');
+      } else {
+        transitionLine.classList.remove('visible');
+        transitionPause.classList.remove('visible');
+        aocContainer.classList.remove('visible');
       }
 
       const wRect = waitlistSection.getBoundingClientRect();
@@ -772,22 +796,43 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll(); // run on load
 
-    // If Beehiiv fails (bad form id, blocked script, etc.), show a direct signup link
+    // Beehiiv resizes the page while measuring its iframe — keep scroll at top unless the user moved
     (function () {
       const embed = document.getElementById('beehiiv-embed');
       const fallback = document.getElementById('beehiiv-fallback');
-      if (!embed || !fallback) return;
+      if (!embed) return;
+
+      let userScrollY = 0;
+      let restoringScroll = false;
+
+      window.addEventListener('scroll', function () {
+        if (!restoringScroll) userScrollY = window.scrollY;
+      }, { passive: true });
+
+      function preserveScrollPosition() {
+        if (userScrollY > SCROLL_REVEAL_START) return;
+        restoringScroll = true;
+        window.scrollTo(0, 0);
+        requestAnimationFrame(function () {
+          restoringScroll = false;
+        });
+      }
 
       function showFallbackIfNeeded() {
+        if (!fallback) return;
         if (embed.querySelector('iframe')) {
           fallback.classList.remove('is-visible');
+          preserveScrollPosition();
           return;
         }
         fallback.classList.add('is-visible');
       }
 
       window.setTimeout(showFallbackIfNeeded, 6000);
-      new MutationObserver(showFallbackIfNeeded).observe(embed, { childList: true, subtree: true });
+      new MutationObserver(function () {
+        showFallbackIfNeeded();
+        preserveScrollPosition();
+      }).observe(embed, { childList: true, subtree: true });
     })();
   </script>
 </body>
