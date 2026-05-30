@@ -3,7 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PausePoint</title>
+  <title>PausePoint | Becoming Architect of Calm</title>
+  <meta name="description" content="PausePoint is becoming Architect of Calm. Same voice, new home. Join the waitlist to be first to know what's next." />
+  <meta name="author" content="PausePoint" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pausepoint.io/" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="favicon/site.webmanifest" />
+  <meta name="theme-color" content="#05161A" />
+  <meta name="color-scheme" content="dark" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pausepoint.io/" />
+  <meta property="og:site_name" content="PausePoint" />
+  <meta property="og:title" content="PausePoint | Becoming Architect of Calm" />
+  <meta property="og:description" content="PausePoint is becoming Architect of Calm. Same voice, new home. Join the waitlist to be first to know what's next." />
+  <meta property="og:image" content="https://pausepoint.io/aoc-logo.png" />
+  <meta property="og:image:alt" content="Architect of Calm wordmark" />
+  <meta property="og:locale" content="en_US" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="PausePoint | Becoming Architect of Calm" />
+  <meta name="twitter:description" content="PausePoint is becoming Architect of Calm. Same voice, new home. Join the waitlist to be first to know what's next." />
+  <meta name="twitter:image" content="https://pausepoint.io/aoc-logo.png" />
+  <meta name="twitter:image:alt" content="Architect of Calm wordmark" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "PausePoint | Becoming Architect of Calm",
+    "description": "PausePoint is becoming Architect of Calm. Same voice, new home. Join the waitlist to be first to know what's next.",
+    "url": "https://pausepoint.io/",
+    "inLanguage": "en-US",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "PausePoint",
+      "url": "https://pausepoint.io/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PausePoint",
+      "url": "https://pausepoint.io/"
+    }
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
@@ -42,7 +89,7 @@
       overflow-x: hidden;
     }
 
-    /* Dual-layer brand crossfade — PP dissolves into AoC on scroll */
+    /* Dual-layer brand crossfade: PP dissolves into AoC on scroll */
     #bg-stack {
       position: fixed;
       inset: 0;
@@ -89,7 +136,7 @@
       opacity: 0.6;
     }
 
-    /* Scroll journey — amber line draws around viewport, full frame at bottom */
+    /* Scroll journey: amber line draws around viewport, full frame at bottom */
     #scroll-frame {
       position: fixed;
       inset: 0;
@@ -115,7 +162,7 @@
       padding: 32px 0 0;
     }
 
-    /* Logo container — swap the inner content when logo is ready */
+    /* Logo container: swap the inner content when logo is ready */
     #pp-logo-container {
       display: inline-block;
       transition: opacity 0.6s ease, transform 0.6s ease;
@@ -288,7 +335,7 @@
       border-radius: 2px;
     }
 
-    /* Brand reveal container — swap logo here later */
+    /* Brand reveal container: swap logo here later */
     #aoc-container {
       text-align: center;
       opacity: 0;
@@ -388,23 +435,26 @@
       line-height: 1.5;
     }
 
-    /* Beehiiv embed — 720px max; never set iframe width, only center it */
+    /* Beehiiv embed: match page bg so transparent iframe areas don't flash white */
     .beehiiv-embed {
       width: 100%;
       max-width: 720px;
       margin-inline: auto;
       margin-bottom: -8px;
       min-height: 0;
+      background: transparent;
     }
 
     .beehiiv-embed > div {
-      width: 100%;
+      background: transparent;
     }
 
     .beehiiv-embed iframe {
       display: block;
       margin-inline: auto;
       max-width: 100%;
+      background-color: var(--aoc-teal);
+      color-scheme: dark;
     }
 
     .waitlist-note {
@@ -435,16 +485,6 @@
     /* Mobile */
     @media (max-width: 520px) {
       .page-wrap { padding: 0 24px; }
-
-      .beehiiv-embed {
-        max-width: 100%;
-        width: 100%;
-      }
-
-      .beehiiv-embed > div {
-        width: 100%;
-        transform: none;
-      }
 
       .beehiiv-embed iframe {
         margin-inline: auto;
@@ -522,10 +562,10 @@
     <section class="waitlist-section" id="waitlist-section">
       <p class="waitlist-label">Stay with us</p>
       <h2 class="waitlist-heading">Be first to know<br>what comes next.</h2>
-      <p class="waitlist-sub">Join the waitlist. Something's coming — and our community gets it first.</p>
+      <p class="waitlist-sub">Join the waitlist. Something's coming, and our community gets it first.</p>
 
       <div class="beehiiv-embed">
-        <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="433c8a91-e58a-42a5-966f-f1d82c57dba6"></script>
+        <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="af66439c-b83c-4ae4-aa4f-c8c1818f6764"></script>
       </div>
       <p class="waitlist-note">No spam. Just the things that matter.</p>
     </section>
@@ -608,7 +648,7 @@
       // Header logo soft handoff
       ppLogo.classList.toggle('handoff', brandFade > 0.25);
 
-      // Bridge moment — line expands, pause icon appears, AoC resolves into focus
+      // Bridge moment: line expands, pause icon appears, AoC resolves into focus
       const bridgeTrigger = transitionRect.top < viewport * 0.72;
       if (bridgeTrigger) {
         transitionLine.classList.add('visible');
@@ -624,57 +664,6 @@
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll(); // run on load
-
-    // Center Beehiiv on desktop by measured offset — never change iframe width
-    (function () {
-      const embed = document.querySelector('.beehiiv-embed');
-      if (!embed) return;
-
-      function centerIframe() {
-        const isMobile = window.matchMedia('(max-width: 520px)').matches;
-
-        embed.querySelectorAll(':scope > div').forEach(function (wrap) {
-          wrap.style.width = '100%';
-
-          if (isMobile) {
-            wrap.style.transform = 'none';
-            return;
-          }
-
-          const iframe = wrap.querySelector('iframe');
-          if (!iframe) {
-            wrap.style.transform = 'none';
-            return;
-          }
-
-          const containerWidth = embed.clientWidth;
-          const iframeWidth = iframe.getBoundingClientRect().width;
-
-          if (containerWidth > 0 && iframeWidth > 0 && iframeWidth < containerWidth - 2) {
-            const offset = Math.round((containerWidth - iframeWidth) / 2);
-            wrap.style.transform = 'translateX(' + offset + 'px)';
-          } else {
-            wrap.style.transform = 'none';
-          }
-        });
-
-        embed.querySelectorAll('iframe').forEach(function (iframe) {
-          iframe.style.display = 'block';
-          iframe.style.marginLeft = 'auto';
-          iframe.style.marginRight = 'auto';
-        });
-      }
-
-      centerIframe();
-      new MutationObserver(centerIframe).observe(embed, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ['style']
-      });
-      window.addEventListener('resize', centerIframe, { passive: true });
-      window.addEventListener('load', centerIframe);
-    })();
   </script>
 </body>
 </html>
