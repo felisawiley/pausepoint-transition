@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PausePoint</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --pp-dark: #2a3840;
+      --pp-mid: #243238;
+      --aoc-teal: #1E3D42;
+      --aoc-deep: #162e32;
+      --amber: #E8A84C;
+      --amber-dim: rgba(232, 168, 76, 0.15);
+      --white: #ffffff;
+      --white-70: rgba(255,255,255,0.7);
+      --white-40: rgba(255,255,255,0.4);
+      --white-20: rgba(255,255,255,0.2);
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--pp-dark);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.05s linear;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.6;
+    }
+
+    /* Amber progress line — left side */
+    #progress-line {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 2px;
+      height: 0%;
+      background: linear-gradient(to bottom, var(--amber), rgba(232,168,76,0.4));
+      z-index: 999;
+      transition: height 0.1s linear;
+    }
+
+    /* Amber accent top */
+    #amber-top {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--amber);
+      opacity: 0.5;
+      z-index: 998;
+    }
+
+    .page-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding: 48px 0 0;
+    }
+
+    /* Logo container — swap the inner content when logo is ready */
+    #pp-logo-container {
+      display: inline-block;
+      transition: opacity 0.8s ease;
+    }
+
+    .pp-wordmark {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(28px, 5vw, 36px);
+      letter-spacing: -0.02em;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pp-wordmark .pause-bars {
+      display: inline-flex;
+      gap: 3px;
+      align-items: center;
+      margin-right: 2px;
+    }
+
+    .pp-wordmark .pause-bars span {
+      display: block;
+      width: 4px;
+      height: 18px;
+      background: var(--white);
+      border-radius: 2px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 80px 0 0;
+    }
+
+    .hero-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 24px;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(40px, 8vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      font-weight: 400;
+      margin-bottom: 0;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.9s ease 0.4s forwards;
+    }
+
+    /* ── BODY TEXT ── */
+    .body-section {
+      padding: 56px 0 0;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 1s ease 0.7s forwards;
+    }
+
+    .body-text {
+      font-size: clamp(16px, 2.2vw, 18px);
+      line-height: 1.8;
+      color: var(--white-70);
+      font-weight: 300;
+    }
+
+    .body-text p {
+      margin-bottom: 28px;
+    }
+
+    .body-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .body-text strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    /* ── TRANSITION SECTION ── */
+    .transition-section {
+      padding: 80px 0;
+      position: relative;
+    }
+
+    /* The amber thread */
+    .amber-thread {
+      width: 40px;
+      height: 1px;
+      background: var(--amber);
+      margin: 0 auto 48px;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .amber-thread.visible {
+      opacity: 1;
+    }
+
+    /* Brand reveal container — swap logo here later */
+    #aoc-container {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+    }
+
+    #aoc-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .aoc-eyebrow {
+      font-family: 'Syne', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 16px;
+    }
+
+    /* AoC logo container — replace innerHTML with <img> when logo is ready */
+    #aoc-logo-container {
+      display: inline-block;
+      /* Logo swap zone: set a fixed size so layout doesn't shift */
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .aoc-wordmark {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(32px, 6vw, 52px);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      line-height: 1.1;
+    }
+
+    .aoc-wordmark em {
+      font-style: italic;
+      color: var(--amber);
+    }
+
+    .aoc-sub {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white-40);
+      margin-top: 12px;
+    }
+
+    /* ── WAITLIST ── */
+    .waitlist-section {
+      padding: 0 0 100px;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .waitlist-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .waitlist-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 20px;
+    }
+
+    .waitlist-heading {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+
+    .waitlist-sub {
+      font-size: 15px;
+      color: var(--white-40);
+      margin-bottom: 36px;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    .waitlist-form {
+      display: flex;
+      gap: 0;
+      max-width: 460px;
+    }
+
+    .waitlist-input {
+      flex: 1;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-right: none;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      padding: 14px 20px;
+      border-radius: 4px 0 0 4px;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .waitlist-input::placeholder {
+      color: var(--white-40);
+    }
+
+    .waitlist-input:focus {
+      border-color: rgba(232,168,76,0.4);
+      background: rgba(255,255,255,0.1);
+    }
+
+    .waitlist-btn {
+      background: var(--amber);
+      color: #1a1a1a;
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s ease, opacity 0.2s ease;
+    }
+
+    .waitlist-btn:hover {
+      background: #f0b85c;
+    }
+
+    .waitlist-btn:active {
+      opacity: 0.85;
+    }
+
+    .waitlist-note {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--white-40);
+      font-style: italic;
+    }
+
+    .success-msg {
+      display: none;
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--amber);
+      padding: 20px 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 0;
+      font-size: 13px;
+      color: var(--white-40);
+      font-weight: 300;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 520px) {
+      .page-wrap { padding: 0 24px; }
+      .waitlist-form { flex-direction: column; }
+      .waitlist-input { border-right: 1px solid rgba(255,255,255,0.12); border-bottom: none; border-radius: 4px 4px 0 0; }
+      .waitlist-btn { border-radius: 0 0 4px 4px; padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="progress-line"></div>
+  <div id="amber-top"></div>
+
+  <div class="page-wrap">
+
+    <header>
+      <!-- PP Logo container: swap img src here when you have the real logo asset -->
+      <div id="pp-logo-container">
+        <img src="pp-logo.png" alt="pause point" style="height:48px; width:auto; display:block;" />
+      </div>
+    </header>
+
+    <section class="hero">
+      <p class="hero-label">A note from us</p>
+      <h1 class="hero-title">Three years ago,<br>we built something<br><em style="font-style:italic; color: rgba(255,255,255,0.5);">small.</em></h1>
+    </section>
+
+    <section class="body-section">
+      <div class="body-text">
+        <p>No roadmap. No investors. Just a hunch that people needed more breathing room in their day. <strong>3,500 of you found us anyway.</strong> 26,000 newsletter reads. More podcast listeners than we ever expected.</p>
+
+        <p>Then Android launched "Pause Point." Native. Built into the hardware. Already on your phone. We're not going to pretend that didn't happen.</p>
+
+        <p>But here's the thing. PausePoint was never just an app. It was a container for something bigger we were building toward. The writing, the conversations, the data, the stories you shared with us. That was always the real work. That work isn't stopping. It's just moving somewhere it can breathe.</p>
+
+        <p>The newsletter continues. The podcast continues. Same voice, new home. Join the waitlist and you'll be the first to know where we're headed, plus something we've been sitting on that we think you'll love.</p>
+
+        <p style="color: var(--white); font-style: italic; font-family: 'DM Serif Display', serif; font-size: 1.1em;">You paused with us. Stick around for what comes next.</p>
+      </div>
+    </section>
+
+    <!-- Transition reveal -->
+    <section class="transition-section">
+      <div class="amber-thread" id="amber-thread"></div>
+
+      <div id="aoc-container">
+        <p class="aoc-eyebrow">Becoming</p>
+        <!-- AoC logo container: replace the wordmark div with <img> tag when logo is ready -->
+        <div id="aoc-logo-container">
+          <img src="aoc-logo.png" alt="Architect of Calm" style="width:100%; max-width:560px; height:auto; display:block; margin: 0 auto;" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Waitlist -->
+    <section class="waitlist-section" id="waitlist-section">
+      <p class="waitlist-label">Stay with us</p>
+      <h2 class="waitlist-heading">Be first to know<br>what comes next.</h2>
+      <p class="waitlist-sub">Join the waitlist. Something's coming — and our community gets it first.</p>
+
+      <div class="waitlist-form" id="waitlist-form">
+        <input
+          type="email"
+          class="waitlist-input"
+          id="email-input"
+          placeholder="your@email.com"
+          autocomplete="email"
+        />
+        <button class="waitlist-btn" onclick="submitWaitlist()">Join</button>
+      </div>
+      <p class="waitlist-note" id="waitlist-note">No spam. Just the things that matter.</p>
+      <div class="success-msg" id="success-msg">You're in. See you on the other side.</div>
+    </section>
+
+    <footer>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <span>© 2026 PausePoint</span>
+        <span style="color: rgba(232,168,76,0.6); font-family:'DM Serif Display',serif; font-style:italic;">Becoming Architect of Calm</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // ── SCROLL-LINKED TRANSITIONS ──
+    const progressLine = document.getElementById('progress-line');
+    const aocContainer = document.getElementById('aoc-container');
+    const waitlistSection = document.getElementById('waitlist-section');
+    const amberpThread = document.getElementById('amber-thread');
+    const body = document.body;
+
+    // Color interpolation
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function hexToRgb(hex) {
+      const r = parseInt(hex.slice(1,3),16);
+      const g = parseInt(hex.slice(3,5),16);
+      const b = parseInt(hex.slice(5,7),16);
+      return [r,g,b];
+    }
+
+    const ppColor = hexToRgb('#2a3840');
+    const aocColor = hexToRgb('#1E3D42');
+
+    function onScroll() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.min(scrollTop / docHeight, 1);
+
+      // Progress line
+      progressLine.style.height = (progress * 100) + '%';
+
+      // Background color shift — slow, starts at 30% scroll
+      const colorProgress = Math.max(0, Math.min((progress - 0.3) / 0.5, 1));
+      const r = Math.round(lerp(ppColor[0], aocColor[0], colorProgress));
+      const g = Math.round(lerp(ppColor[1], aocColor[1], colorProgress));
+      const b = Math.round(lerp(ppColor[2], aocColor[2], colorProgress));
+      body.style.background = `rgb(${r},${g},${b})`;
+
+      // AoC reveal — triggers when in viewport
+      const aocRect = aocContainer.getBoundingClientRect();
+      if (aocRect.top < window.innerHeight * 0.75) {
+        aocContainer.classList.add('visible');
+        document.getElementById('amber-thread').classList.add('visible');
+      }
+
+      // Waitlist reveal
+      const wRect = waitlistSection.getBoundingClientRect();
+      if (wRect.top < window.innerHeight * 0.8) {
+        waitlistSection.classList.add('visible');
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // run on load
+
+    // ── WAITLIST SUBMIT ──
+    // Replace BEEHIIV_URL with your actual Beehiiv embed/subscribe URL
+    const BEEHIIV_URL = 'https://embeds.beehiiv.com/YOUR_PUBLICATION_ID/subscribe';
+
+    async function submitWaitlist() {
+      const email = document.getElementById('email-input').value.trim();
+      if (!email || !email.includes('@')) {
+        document.getElementById('email-input').style.borderColor = 'rgba(232,168,76,0.6)';
+        return;
+      }
+
+      const btn = document.querySelector('.waitlist-btn');
+      btn.textContent = '...';
+      btn.style.opacity = '0.7';
+
+      try {
+        // Beehiiv subscribe endpoint
+        await fetch(BEEHIIV_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+      } catch(e) {
+        // Silent fail — show success regardless (Beehiiv may block CORS on direct fetch)
+        // For production: use a serverless function or Beehiiv's iframe embed instead
+      }
+
+      document.getElementById('waitlist-form').style.display = 'none';
+      document.getElementById('waitlist-note').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    }
+
+    // Enter key submit
+    document.getElementById('email-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') submitWaitlist();
+    });
+  </script>
+</body>
+</html>
