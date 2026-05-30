@@ -514,8 +514,37 @@
       max-width: 720px;
       margin-inline: auto;
       margin-bottom: 6px;
-      min-height: 0;
+      min-height: 72px;
       background: transparent;
+    }
+
+    .beehiiv-fallback {
+      display: none;
+      margin-top: 8px;
+    }
+
+    .beehiiv-fallback.is-visible {
+      display: block;
+    }
+
+    .beehiiv-fallback a {
+      display: inline-block;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--pp-dark);
+      background: var(--amber);
+      padding: 14px 28px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .beehiiv-fallback a:hover {
+      background: #f0b85c;
+      transform: translateY(-1px);
     }
 
     .beehiiv-embed > div {
@@ -637,9 +666,12 @@
       <h2 class="waitlist-heading">Be first to know<br>what comes next.</h2>
       <p class="waitlist-sub">Join the waitlist. Something's coming, and our community gets it first.</p>
 
-      <div class="beehiiv-embed">
+      <div class="beehiiv-embed" id="beehiiv-embed">
         <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="af66439c-b83c-4ae4-aa4f-c8c1818f6764"></script>
       </div>
+      <p class="beehiiv-fallback" id="beehiiv-fallback">
+        <a href="https://subscribe-forms.beehiiv.com/v3/forms/af66439c-b83c-4ae4-aa4f-c8c1818f6764" target="_blank" rel="noopener noreferrer">Join the waitlist</a>
+      </p>
       <p class="waitlist-note">No spam. Just the things that matter.</p>
     </section>
 
@@ -651,6 +683,8 @@
     </footer>
 
   </div>
+
+  <script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
 
   <script>
     // ── SCROLL-LINKED TRANSITIONS ──
@@ -737,6 +771,24 @@
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll(); // run on load
+
+    // If Beehiiv fails (bad form id, blocked script, etc.), show a direct signup link
+    (function () {
+      const embed = document.getElementById('beehiiv-embed');
+      const fallback = document.getElementById('beehiiv-fallback');
+      if (!embed || !fallback) return;
+
+      function showFallbackIfNeeded() {
+        if (embed.querySelector('iframe')) {
+          fallback.classList.remove('is-visible');
+          return;
+        }
+        fallback.classList.add('is-visible');
+      }
+
+      window.setTimeout(showFallbackIfNeeded, 6000);
+      new MutationObserver(showFallbackIfNeeded).observe(embed, { childList: true, subtree: true });
+    })();
   </script>
 </body>
 </html>
