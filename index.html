@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PausePoint | Becoming Architect of Calm</title>
-  <meta name="description" content="PausePoint is becoming Architect of Calm. Same voice, new home. Join the waitlist to be first to know what's next." />
+  <title>PausePoint Is Becoming Architect of Calm | Join the Waitlist</title>
+  <meta name="description" content="PausePoint is becoming Architect of Calm. The mindfulness newsletter and podcast continue with 100 issues and 26k reads. Join the waitlist to be first to know what's next." />
+  <meta name="keywords" content="PausePoint, Architect of Calm, mindfulness, wellness newsletter, mental health podcast, waitlist, breathing room, work-life balance" />
   <meta name="author" content="PausePoint" />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
   <link rel="canonical" href="https://pausepoint.io/" />
 
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
@@ -15,40 +17,88 @@
   <link rel="manifest" href="favicon/site.webmanifest" />
   <meta name="theme-color" content="#05161A" />
   <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="PausePoint" />
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pausepoint.io/" />
   <meta property="og:site_name" content="PausePoint" />
-  <meta property="og:title" content="PausePoint | Becoming Architect of Calm" />
-  <meta property="og:description" content="PausePoint is becoming Architect of Calm. Same voice, new home. Join the waitlist to be first to know what's next." />
+  <meta property="og:title" content="PausePoint Is Becoming Architect of Calm" />
+  <meta property="og:description" content="Same voice, new home. The PausePoint newsletter and podcast continue. 100 newsletters, 26k reads. Join the waitlist for what comes next." />
   <meta property="og:image" content="https://pausepoint.io/aoc-logo.png" />
-  <meta property="og:image:alt" content="Architect of Calm wordmark" />
+  <meta property="og:image:secure_url" content="https://pausepoint.io/aoc-logo.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="930" />
+  <meta property="og:image:height" content="239" />
+  <meta property="og:image:alt" content="Architect of Calm wordmark by PausePoint" />
   <meta property="og:locale" content="en_US" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="PausePoint | Becoming Architect of Calm" />
-  <meta name="twitter:description" content="PausePoint is becoming Architect of Calm. Same voice, new home. Join the waitlist to be first to know what's next." />
+  <meta name="twitter:title" content="PausePoint Is Becoming Architect of Calm" />
+  <meta name="twitter:description" content="Same voice, new home. Newsletter and podcast continue. Join the waitlist to be first to know what's next." />
   <meta name="twitter:image" content="https://pausepoint.io/aoc-logo.png" />
-  <meta name="twitter:image:alt" content="Architect of Calm wordmark" />
+  <meta name="twitter:image:alt" content="Architect of Calm wordmark by PausePoint" />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "PausePoint | Becoming Architect of Calm",
-    "description": "PausePoint is becoming Architect of Calm. Same voice, new home. Join the waitlist to be first to know what's next.",
-    "url": "https://pausepoint.io/",
-    "inLanguage": "en-US",
-    "isPartOf": {
-      "@type": "WebSite",
-      "name": "PausePoint",
-      "url": "https://pausepoint.io/"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "PausePoint",
-      "url": "https://pausepoint.io/"
-    }
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://pausepoint.io/#organization",
+        "name": "PausePoint",
+        "url": "https://pausepoint.io/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://pausepoint.io/pp-logo.png",
+          "width": 872,
+          "height": 239
+        },
+        "sameAs": [
+          "https://pausepoint-newsletter.beehiiv.com/",
+          "https://open.spotify.com/show/7gPqBgYccM6GZb5tQmeY8F"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://pausepoint.io/#website",
+        "url": "https://pausepoint.io/",
+        "name": "PausePoint",
+        "description": "Mindfulness tips, newsletter, and podcast for busy professionals.",
+        "publisher": { "@id": "https://pausepoint.io/#organization" },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://pausepoint.io/#webpage",
+        "url": "https://pausepoint.io/",
+        "name": "PausePoint Is Becoming Architect of Calm | Join the Waitlist",
+        "description": "PausePoint is becoming Architect of Calm. The mindfulness newsletter and podcast continue with 100 issues and 26k reads. Join the waitlist to be first to know what's next.",
+        "isPartOf": { "@id": "https://pausepoint.io/#website" },
+        "about": { "@id": "https://pausepoint.io/#organization" },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://pausepoint.io/aoc-logo.png",
+          "width": 930,
+          "height": 239
+        },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "PodcastSeries",
+        "name": "PausePoint: The Podcast",
+        "url": "https://open.spotify.com/show/7gPqBgYccM6GZb5tQmeY8F",
+        "author": { "@id": "https://pausepoint.io/#organization" },
+        "inLanguage": "en-US",
+        "genre": "Self-help"
+      },
+      {
+        "@type": "CreativeWork",
+        "name": "PausePoint Newsletter",
+        "url": "https://pausepoint-newsletter.beehiiv.com/",
+        "author": { "@id": "https://pausepoint.io/#organization" },
+        "inLanguage": "en-US"
+      }
+    ]
   }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -273,6 +323,19 @@
     .body-text strong {
       color: var(--white);
       font-weight: 500;
+    }
+
+    .body-text a {
+      color: var(--white);
+      text-decoration: underline;
+      text-decoration-color: rgba(232, 168, 76, 0.45);
+      text-underline-offset: 3px;
+      transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    }
+
+    .body-text a:hover {
+      color: var(--amber);
+      text-decoration-color: var(--amber);
     }
 
     /* ── TRANSITION SECTION ── */
@@ -528,13 +591,13 @@
 
     <section class="body-section">
       <div class="body-text">
-        <p>No roadmap. No investors. Just a hunch that people needed more breathing room in their day. <strong>3,500 of you found us anyway.</strong> 26,000 newsletter reads. More podcast listeners than we ever expected.</p>
+        <p>No roadmap. No investors. Just a hunch that people needed more breathing room in their day. <strong>3,500 of you found us anyway.</strong> 100 newsletters. 26k newsletter reads. More podcast listeners than we ever expected.</p>
 
         <p>Then Android launched "Pause Point." Native. Built into the hardware. Already on your phone. We're not going to pretend that didn't happen.</p>
 
         <p>But here's the thing. PausePoint was never just an app. It was a container for something bigger we were building toward. The writing, the conversations, the data, the stories you shared with us. That was always the real work. That work isn't stopping. It's just moving somewhere it can breathe.</p>
 
-        <p>The newsletter continues. The podcast continues. Same voice, new home. Join the waitlist and you'll be the first to know where we're headed, plus something we've been sitting on that we think you'll love.</p>
+        <p>The <a href="https://pausepoint-newsletter.beehiiv.com/?utm_source=from+transition+website&utm_medium=from+transition+website&utm_campaign=from+transition+website" target="_blank" rel="noopener noreferrer">newsletter</a> continues. The <a href="https://open.spotify.com/show/7gPqBgYccM6GZb5tQmeY8F?utm_source=from+transition+website&utm_medium=from+transition+website&utm_campaign=from+transition+website" target="_blank" rel="noopener noreferrer">podcast</a> continues. Same voice, new home. Join the waitlist and you'll be the first to know where we're headed, plus something we've been sitting on that we think you'll love.</p>
 
         <p style="color: var(--white); font-style: italic; font-family: 'DM Serif Display', serif; font-size: 1.1em;">You paused with us. Stick around for what comes next.</p>
       </div>
